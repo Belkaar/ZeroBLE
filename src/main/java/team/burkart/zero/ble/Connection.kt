@@ -324,7 +324,7 @@ class Connection (private val device: BluetoothDevice, private val context: Cont
 							}
 							sendData()
 						}
-					}, 100)
+					}, 200)
 				} else {
 					LogUtil.log("Data write failed")
 					synchronized(queue) {
