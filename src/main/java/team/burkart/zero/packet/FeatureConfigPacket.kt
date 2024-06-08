@@ -65,7 +65,7 @@ class FeatureConfigPacket(private val requestOnly: Boolean = false) : BasePacket
 		if (hashData.size < hashSize) {
 			hashData += ByteArray(hashSize - hashData.size)
 		} else if (hashData.size > hashSize) {
-			hashData = hashData.sliceArray(0..31)
+			hashData = hashData.sliceArray(0..< hashSize)
 		}
 		result += hashData.size.toByte()
 		result += hashData
