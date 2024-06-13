@@ -140,8 +140,8 @@ open class BasePacket {
 			val charset: Charset = UTF_8
 			var ba = str.toByteArray(charset)
 			val sizeBeforePadding = ba.size
-			if (ba.size > size) {
-				ba.dropLast(ba.size - size)
+			if (ba.size > size - 1) {
+				ba.dropLast(ba.size - (size - 1))
 			}
 			if (ba.size < size) {
 				ba += ByteArray(size - ba.size)
