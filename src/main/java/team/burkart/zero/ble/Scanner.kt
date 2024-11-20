@@ -46,11 +46,13 @@ class Scanner (private val context: Context) {
 			.setMatchMode(ScanSettings.MATCH_MODE_AGGRESSIVE)
 			.setNumOfMatches(ScanSettings.MATCH_NUM_ONE_ADVERTISEMENT)
 			.setReportDelay(0)
-		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-			scanSettings.setCallbackType(ScanSettings.CALLBACK_TYPE_FIRST_MATCH)
-		} else {
+		// CALLBACK_TYPE_FIRST_MATCH seems to break scanning on some devices and result in permanent
+		// error code 5 as scan result until phone is set to airplane mode
+		//if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+		//	scanSettings.setCallbackType(ScanSettings.CALLBACK_TYPE_FIRST_MATCH)
+		//} else {
 			scanSettings.setCallbackType(ScanSettings.CALLBACK_TYPE_ALL_MATCHES)
-		}
+		//}
 		bleScanner.startScan(mutableListOf(scanFilter), scanSettings.build(), scanCallback)
 
 		timeoutTask = object: TimerTask() {
