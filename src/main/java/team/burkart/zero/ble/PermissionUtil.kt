@@ -8,10 +8,13 @@ import androidx.core.app.ActivityCompat
 import team.burkart.zero.LogUtil
 class PermissionUtil(private val context: Activity) {
 	private fun permissions() : Array<String> {
-		val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+		var permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
 			arrayOf(Manifest.permission.BLUETOOTH_CONNECT, Manifest.permission.BLUETOOTH_SCAN)
 		} else {
 			arrayOf(Manifest.permission.BLUETOOTH, Manifest.permission.BLUETOOTH_ADMIN)
+		}
+		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.R) {
+			permissions += Manifest.permission.ACCESS_FINE_LOCATION
 		}
 		return permissions
 	}
