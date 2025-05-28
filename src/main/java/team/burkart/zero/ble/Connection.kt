@@ -268,6 +268,10 @@ class Connection (private val device: BluetoothDevice, private val context: Cont
 
 		}
 
+		@Deprecated("Deprecated in Java")
+		override fun onCharacteristicChanged(gatt: BluetoothGatt, characteristic: BluetoothGattCharacteristic) {
+			onCharacteristicChanged(gatt, characteristic, characteristic.value);
+		}
 		override fun onCharacteristicChanged(gatt: BluetoothGatt, characteristic: BluetoothGattCharacteristic, value: ByteArray) {
 			//LogUtil.log("onCharacteristicChanged " + characteristic.uuid + ": " + value.toHex())
 			when (characteristic.uuid) {
