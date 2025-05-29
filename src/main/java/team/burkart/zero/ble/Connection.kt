@@ -179,6 +179,7 @@ class Connection (private val device: BluetoothDevice, private val context: Cont
 	@SuppressLint("MissingPermission")
 	private fun nextConnectionStep() : Boolean {
 		if (currentConnectStep == -1) {return false;}
+		LogUtil.log("ConnectionStep $currentConnectStep")
 		when (++currentConnectStep) {
 			1 -> {
 				gatt!!.discoverServices()
@@ -238,7 +239,7 @@ class Connection (private val device: BluetoothDevice, private val context: Cont
 
 		@SuppressLint("MissingPermission")
 		override fun onServicesDiscovered(localGatt: BluetoothGatt, status: Int) {
-			//LogUtil.log("onServicesDiscovered status: $status")
+			LogUtil.log("onServicesDiscovered status: $status")
 
 			if (status == 129 /*GATT_INTERNAL_ERROR*/) {
 				// it should be a rare case, this article recommends to disconnect:
@@ -270,10 +271,11 @@ class Connection (private val device: BluetoothDevice, private val context: Cont
 
 		@Deprecated("Deprecated in Java")
 		override fun onCharacteristicChanged(gatt: BluetoothGatt, characteristic: BluetoothGattCharacteristic) {
+			LogUtil.log("onCharacteristicChangedOld " + characteristic.uuid + ": " + characteristic.value.toHex())
 			onCharacteristicChanged(gatt, characteristic, characteristic.value);
 		}
 		override fun onCharacteristicChanged(gatt: BluetoothGatt, characteristic: BluetoothGattCharacteristic, value: ByteArray) {
-			//LogUtil.log("onCharacteristicChanged " + characteristic.uuid + ": " + value.toHex())
+			LogUtil.log("onCharacteristicChanged " + characteristic.uuid + ": " + value.toHex())
 			when (characteristic.uuid) {
 				mtuTxUUID -> {
 					mtu = BasePacket.number(value).toShort()
